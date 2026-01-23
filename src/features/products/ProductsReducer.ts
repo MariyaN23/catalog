@@ -3,6 +3,8 @@ import { Product } from "@/lib/types/Product";
 import { fetchProducts } from "@/features/products/ProductsActions";
 import { Status } from "@/lib/types/Status";
 import { Sort } from "@/lib/types/Sort";
+import { mapProductCharacteristicsToNames } from "@/helpers/mappers";
+import { Filter } from "@/lib/types/Filter";
 
 type InitialState = {
     items: Product[]
@@ -14,6 +16,7 @@ type InitialState = {
         currentPage: number
         itemsPerPage: number
     }
+    filters: Filter
 }
 
 const initialState: InitialState = {
@@ -25,7 +28,8 @@ const initialState: InitialState = {
     pagination: {
         currentPage: 1,
         itemsPerPage: 12,
-    }
+    },
+    filters: {},
 }
 
 export const slice = createSlice({
@@ -62,6 +66,24 @@ export const slice = createSlice({
                 state.items = action.payload.products
                 state.filteredItems = action.payload.products
                 state.pagination.currentPage = 1
+
+                const filters: Filter = {}
+                action.payload.products.forEach((product: Product) => {
+                    Object.entries(product.characteristics).forEach(([key, value]) => {
+                        const characteristicKey = key as keyof typeof mapProductCharacteristicsToNames
+                        const russianKey = mapProductCharacteristicsToNames[characteristicKey]
+                        if (!filters[russianKey]) {
+                            filters[russianKey] = []
+                        }
+                        if (value && !filters[russianKey].includes(value)) {
+                            filters[russianKey].push(value)
+                        }
+                    })
+                })
+                Object.keys(filters).forEach((key) => {
+                    filters[key].sort()
+                })
+                state.filters = filters
             })
             .addCase(fetchProducts.rejected, (state, action) => {
                 state.status = 'failed'

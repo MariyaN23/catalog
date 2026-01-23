@@ -15,6 +15,7 @@ export function useProducts() {
     const error = useSelector(productsSelectors.selectError)
     const currentPage = useSelector(productsSelectors.selectCurrentPage)
     const totalPages = useSelector(productsSelectors.selectTotalPages)
+    const filters = useSelector(productsSelectors.selectFilters)
 
     useEffect(() => {
         dispatch(fetchProducts())
@@ -35,6 +36,7 @@ export function useProducts() {
         error,
         currentPage,
         totalPages,
+        filters,
         onPageChange,
         onSortChange,
     }
