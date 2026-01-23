@@ -1,49 +1,29 @@
 'use client'
-import { useEffect, useMemo, useState } from "react";
-import { Product } from "@/lib/types/Product";
-import { productsApi } from "@/lib/api/products-api";
+import { useDispatch, useSelector } from 'react-redux';
+import { productsSelectors } from "@/features/products";
+import { AppDispatch } from "@/lib/types/App";
+import { fetchProducts } from "@/features/products/ProductsActions";
+import { useEffect } from "react";
+import { setCurrentPage } from "@/features/products/ProductsReducer";
 
-export function useProducts(currentPage: number) {
-    const [products, setProducts] = useState<Product[]>([])
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState<null | string>(null)
-    const [page, setPage] = useState(1)
-    const [totalPages, setTotalPages] = useState(1)
-
-    const itemsPerPage = 12
+export function useProducts() {
+    const dispatch = useDispatch<AppDispatch>()
+    const products = useSelector(productsSelectors.selectPaginatedProducts())
+    const currentPage = useSelector(productsSelectors.selectCurrentPage())
+    const totalPages = useSelector(productsSelectors.selectTotalPages())
 
     useEffect(() => {
-        const getProducts = async () => {
-            try {
-                setLoading(true)
-                setError(null)
-                const res = await productsApi.getProducts()
-                setProducts(res.data)
-                const total = Math.ceil(res.data.length / itemsPerPage)
-                setTotalPages(total || 1)
-            } catch (err) {
-                const errorMessage = (err as Error).message
-                setError(errorMessage)
-            } finally {
-                setLoading(false)
-            }
-        }
+        dispatch(fetchProducts())
+    }, [dispatch])
 
-        getProducts()
-    }, [])
-
-    const paginatedProducts = useMemo(() => {
-        const startIndex = (page - 1) * itemsPerPage
-        const endIndex = startIndex + itemsPerPage
-        return products.slice(startIndex, endIndex)
-    }, [products, page])
+    const onPageChange = (newPage: number) => {
+        dispatch(setCurrentPage(newPage))
+    }
 
     return {
-        products: paginatedProducts,
-        loading,
-        error,
-        page,
+        products,
+        currentPage,
         totalPages,
-        itemsPerPage,
+        onPageChange,
     }
 }

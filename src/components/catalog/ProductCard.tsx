@@ -13,7 +13,7 @@ export const ProductCard = ({product}: Props) => {
             href={'/'}
             className={'flex flex-col gap-3 p-3 bg-white rounded-xl'}
         >
-            <div className={'relative'}>
+            <div className={'relative mx-auto'}>
                 <div className={'absolute right-0'}>
                     <Tooltip content='В избранное'>
                         <Button
