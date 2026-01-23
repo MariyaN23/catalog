@@ -1,15 +1,19 @@
 'use client'
 import { useProducts } from "@/hooks/useProducts";
-import { ProductCard } from "@/components/catalog/ProductCard";
 import { Pagination } from "@heroui/react";
 import { SortSelect } from "@/components/catalog/SortSelect";
+import { ProductsSearch } from "@/components/catalog/ProductsSearch";
 
 export const Catalog = () => {
     const {
         products,
+        status,
+        sorting,
+        error,
         currentPage,
         totalPages,
         onPageChange,
+        onSortChange,
     } = useProducts()
 
     return (
@@ -19,25 +23,17 @@ export const Catalog = () => {
             </div>
             <div className={'space-y-4'}>
                 <div className={'flex justify-end'}>
-                    <SortSelect />
+                    <SortSelect sorting={sorting} onSortChange={onSortChange} />
                 </div>
-                <div className={'grid grid-cols-4 gap-4'}>
-                    {products.length > 0 ? products.map(product => (
-                        <ProductCard
-                            key={product.id}
-                            product={product}
-                        />
-                    )) : (
-                        <p className={'col-span-4 text-center'}>
-                            Ничего не найдено
-                        </p>
-                    )}
-                </div>
+                <ProductsSearch
+                    products={products}
+                    status={status}
+                />
                 <div className={'flex justify-center py-8'}>
                     <Pagination
                         page={currentPage}
                         total={totalPages}
-                        onChange={(page: number)=> onPageChange(page)}
+                        onChange={(page: number) => onPageChange(page)}
                     />
                 </div>
             </div>
