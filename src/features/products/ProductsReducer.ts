@@ -1,10 +1,10 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Product } from "@/lib/types/Product";
-import { fetchProducts } from "@/features/products/ProductsActions";
-import { Status } from "@/lib/types/Status";
-import { Sort } from "@/lib/types/Sort";
-import { mapProductCharacteristicsToNames } from "@/helpers/mappers";
-import { Filter } from "@/lib/types/Filter";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {Product} from "@/lib/types/Product";
+import {fetchProducts} from "@/features/products/ProductsActions";
+import {Status} from "@/lib/types/Status";
+import {Sort} from "@/lib/types/Sort";
+import {mapProductCharacteristicsToNames} from "@/helpers/mappers";
+import {Filter} from "@/lib/types/Filter";
 
 type InitialState = {
     items: Product[]
@@ -17,6 +17,7 @@ type InitialState = {
         itemsPerPage: number
     }
     filters: Filter
+    searchFilters: Filter
 }
 
 const initialState: InitialState = {
@@ -30,6 +31,7 @@ const initialState: InitialState = {
         itemsPerPage: 12,
     },
     filters: {},
+    searchFilters: {},
 }
 
 export const slice = createSlice({
@@ -54,6 +56,9 @@ export const slice = createSlice({
             }
             state.pagination.currentPage = 1
         },
+        setSelectedFilters: (state, action: PayloadAction<Filter>) => {
+            state.searchFilters = action.payload
+        }
     },
     extraReducers: builder => {
         builder
@@ -95,4 +100,5 @@ export const slice = createSlice({
 export const {
     setCurrentPage,
     setSortingValue,
+    setSelectedFilters,
 } = slice.actions

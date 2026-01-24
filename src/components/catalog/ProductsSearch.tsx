@@ -1,13 +1,12 @@
-import { ProductCard } from "@/components/catalog/ProductCard";
-import { Product } from "@/lib/types/Product";
-import { Status } from "@/lib/types/Status";
+import {ProductCard} from "@/components/catalog/ProductCard";
+import {useProducts} from "@/hooks/useProducts";
 
-type Props = {
-    products: Product[]
-    status: Status
-}
+export const ProductsSearch = () => {
+    const {
+        products,
+        status,
+    } = useProducts()
 
-export const ProductsSearch = ({products, status}: Props) => {
     if (status === 'loading') {
         return (
             <p>Загрузка продуктов...</p>

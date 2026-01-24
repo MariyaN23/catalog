@@ -4,8 +4,9 @@ import { productsSelectors } from "@/features/products";
 import { AppDispatch } from "@/lib/types/App";
 import { fetchProducts } from "@/features/products/ProductsActions";
 import { useEffect } from "react";
-import { setCurrentPage, setSortingValue } from "@/features/products/ProductsReducer";
+import { setCurrentPage, setSortingValue, setSelectedFilters } from "@/features/products/ProductsReducer";
 import { Sort } from "@/lib/types/Sort";
+import {Filter} from "@/lib/types/Filter";
 
 export function useProducts() {
     const dispatch = useDispatch<AppDispatch>()
@@ -16,6 +17,7 @@ export function useProducts() {
     const currentPage = useSelector(productsSelectors.selectCurrentPage)
     const totalPages = useSelector(productsSelectors.selectTotalPages)
     const filters = useSelector(productsSelectors.selectFilters)
+    const searchFilters = useSelector(productsSelectors.selectSearchFilters)
 
     useEffect(() => {
         dispatch(fetchProducts())
@@ -29,6 +31,14 @@ export function useProducts() {
         dispatch(setSortingValue(value))
     }
 
+    const onFilterChange = (updatedFilters: Filter) => {
+        dispatch(setSelectedFilters(updatedFilters))
+    }
+
+    const onClearFilters = () => {
+        dispatch(setSelectedFilters({}))
+    }
+
     return {
         products,
         status,
@@ -37,7 +47,10 @@ export function useProducts() {
         currentPage,
         totalPages,
         filters,
+        searchFilters,
         onPageChange,
         onSortChange,
+        onFilterChange,
+        onClearFilters,
     }
 }

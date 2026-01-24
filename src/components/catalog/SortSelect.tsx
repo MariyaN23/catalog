@@ -1,11 +1,7 @@
 import { Select, SelectItem } from "@heroui/react";
 import { ChangeEvent } from "react";
 import { Sort } from "@/lib/types/Sort";
-
-type Props = {
-    sorting: Sort
-    onSortChange: (value: Sort) => void
-}
+import {useProducts} from "@/hooks/useProducts";
 
 const sortingVariants = [
     {key: 'default', label: 'По релевантности'},
@@ -13,7 +9,12 @@ const sortingVariants = [
     {key: 'desc', label: 'Сначала дорогие'},
 ]
 
-export const SortSelect = ({sorting, onSortChange}: Props) => {
+export const SortSelect = () => {
+    const {
+        sorting,
+        onSortChange,
+    } = useProducts()
+
     const handleSelectionChange = (e: ChangeEvent<HTMLSelectElement>) => {
         onSortChange(e.target.value as Sort)
     }

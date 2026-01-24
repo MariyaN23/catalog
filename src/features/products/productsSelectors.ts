@@ -8,6 +8,7 @@ export const selectSorting = (state: AppRootState) => state.products.sorting
 export const selectError = (state: AppRootState) => state.products.error
 export const selectCurrentPage = (state: AppRootState) => state.products.pagination.currentPage
 export const selectFilters = (state: AppRootState) => state.products.filters
+export const selectSearchFilters = (state: AppRootState) => state.products.searchFilters
 
 export const selectPaginatedProducts = createSelector(
     [selectFilteredItems, selectCurrentPage, selectItemsPerPage],
