@@ -1,10 +1,10 @@
-'use client'
+"use client"
 import { useDispatch, useSelector } from 'react-redux';
 import { productsSelectors } from "@/features/products";
 import { AppDispatch } from "@/lib/types/App";
-import { fetchProducts } from "@/features/products/ProductsActions";
+import { fetchProducts } from "@/features/products/productsActions";
 import { useEffect } from "react";
-import { setCurrentPage, setSortingValue, setSelectedFilters } from "@/features/products/ProductsReducer";
+import { setCurrentPage, setSortingValue, setSelectedFilters } from "@/features/products/productsReducer";
 import { Sort } from "@/lib/types/Sort";
 import {Filter} from "@/lib/types/Filter";
 

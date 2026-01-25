@@ -2,7 +2,7 @@ import { Product } from "@/lib/types/Product";
 import { HeartIcon } from "@/components/ui/icons/HeartIcon";
 import { Button, Tooltip } from "@heroui/react";
 import Image from "next/image";
-import {formattedPrice} from "@/helpers/formatted-price";
+import {formattedPrice} from "@/helpers/formattedPrice";
 
 type Props = {
     product: Product

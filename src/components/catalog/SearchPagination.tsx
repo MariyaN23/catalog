@@ -13,15 +13,15 @@ export const SearchPagination = () => {
         onPageChange(page)
     }
 
-    if (totalPages > 0) {
-        return (
-            <div className={'flex justify-center py-8'}>
-                <Pagination
-                    page={currentPage}
-                    total={totalPages}
-                    onChange={handleSearchChange}
-                />
-            </div>
-        )
-    }
+    if (!totalPages) return null
+
+    return (
+        <div className={'flex justify-center py-8'}>
+            <Pagination
+                page={currentPage}
+                total={totalPages}
+                onChange={handleSearchChange}
+            />
+        </div>
+    )
 }

@@ -1,10 +1,10 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Product} from "@/lib/types/Product";
-import {fetchProducts} from "@/features/products/ProductsActions";
 import {Status} from "@/lib/types/Status";
 import {Sort} from "@/lib/types/Sort";
 import {Filter} from "@/lib/types/Filter";
 import {ProductCharacteristics} from "@/lib/types/ProductCharacteristics";
+import {fetchProducts} from "@/features/products/productsActions";
 
 type InitialState = {
     items: Product[]
@@ -36,17 +36,15 @@ const initialState: InitialState = {
 
 const applyFilters = (products: Product[], filters: Filter): Product[] => {
     if (Object.keys(filters).length === 0) {
-        return [...products]
+        return products
     }
 
     return products.filter(product => {
         return Object.entries(filters).every(([key, filterValues]) => {
             if (!filterValues || filterValues.length === 0) return true
 
-            const productValue = product.characteristics[key as keyof ProductCharacteristics];
-            if (productValue === undefined || productValue === null) {
-                return false
-            }
+            const productValue = product.characteristics[key as keyof ProductCharacteristics]
+            if (!productValue) return false
 
             return filterValues.includes(productValue.toString())
         })
@@ -54,15 +52,13 @@ const applyFilters = (products: Product[], filters: Filter): Product[] => {
 }
 
 const applySorting = (products: Product[], sorting: Sort): Product[] => {
-    const sortedProducts = [...products]
-
     switch (sorting) {
         case 'asc':
-            return sortedProducts.sort((a, b) => a.price - b.price)
+            return products.toSorted((a, b) => a.price - b.price)
         case 'desc':
-            return sortedProducts.sort((a, b) => b.price - a.price)
+            return products.toSorted((a, b) => b.price - a.price)
         default:
-            return sortedProducts
+            return [...products]
     }
 }
 

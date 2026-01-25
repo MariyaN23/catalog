@@ -1,16 +1,26 @@
 "use client"
 import {ProductCard} from "@/components/catalog/ProductCard";
 import {useProducts} from "@/hooks/useProducts";
+import {Spinner} from "@heroui/react";
 
 export const ProductsSearch = () => {
     const {
         products,
         status,
+        error,
     } = useProducts()
 
     if (status === 'loading') {
         return (
-            <p>Загрузка продуктов...</p>
+            <Spinner />
+        )
+    }
+
+    if (status === 'failed') {
+        return (
+            <div className={'text-gray-600'}>
+                Произошла ошибка: {error}
+            </div>
         )
     }
 

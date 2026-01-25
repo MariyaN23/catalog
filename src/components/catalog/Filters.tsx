@@ -24,20 +24,6 @@ export const Filters = () => {
 
     const visibleItems = 6
 
-    if (status === 'loading') {
-        return (
-            <p>Загрузка фильтров...</p>
-        )
-    }
-
-    if (status === 'failed') {
-        return (
-            <p className={'col-span-4 text-center'}>
-                Ошибка при загрузке продуктов
-            </p>
-        )
-    }
-
     if (status === 'succeeded') {
         return (
             <div className={'bg-white rounded-xl h-fit'}>

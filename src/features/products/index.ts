@@ -1,5 +1,5 @@
-import { slice } from './ProductsReducer';
-import * as productsAsyncActions from './ProductsActions';
+import { slice } from './productsReducer';
+import * as productsAsyncActions from './productsActions';
 import * as productsSelectors from './productsSelectors';
 
 const productsReducer = slice.reducer
