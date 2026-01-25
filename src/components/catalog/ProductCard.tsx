@@ -2,6 +2,7 @@ import { Product } from "@/lib/types/Product";
 import { HeartIcon } from "@/components/ui/icons/HeartIcon";
 import { Button, Tooltip } from "@heroui/react";
 import Image from "next/image";
+import {formattedPrice} from "@/helpers/formatted-price";
 
 type Props = {
     product: Product
@@ -41,7 +42,7 @@ export const ProductCard = ({product}: Props) => {
                 </div>
             </div>
             <div className={'font-bold text-sm'}>
-                {product.price} р.
+                {formattedPrice(product.price)} р.
             </div>
             <p className={'hyphens-auto flex-grow'}>
                 {product.title}

@@ -1,3 +1,4 @@
+"use client"
 import { Select, SelectItem } from "@heroui/react";
 import { ChangeEvent } from "react";
 import { Sort } from "@/lib/types/Sort";

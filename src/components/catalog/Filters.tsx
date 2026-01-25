@@ -1,5 +1,7 @@
+"use client"
 import {Accordion, AccordionItem, Button, Checkbox, CheckboxGroup} from "@heroui/react";
 import {useProducts} from "@/hooks/useProducts";
+import {productCharacteristicTranslations} from "@/helpers/translations";
 
 export const Filters = () => {
     const {
@@ -12,21 +14,17 @@ export const Filters = () => {
 
     const handleFilterChange = (key: string, values: string[]) => {
         const updatedFilters = {...searchFilters}
-
         if (values.length === 0) {
             delete updatedFilters[key]
         } else {
             updatedFilters[key] = values
         }
-
         onFilterChange(updatedFilters)
     }
 
-    console.log('Selected filters:', searchFilters)
-
     const visibleItems = 6
 
-    if (status === "loading") {
+    if (status === 'loading') {
         return (
             <p>Загрузка фильтров...</p>
         )
@@ -35,7 +33,7 @@ export const Filters = () => {
     if (status === 'failed') {
         return (
             <p className={'col-span-4 text-center'}>
-                Ничего не найдено
+                Ошибка при загрузке продуктов
             </p>
         )
     }
@@ -47,34 +45,39 @@ export const Filters = () => {
                     selectionMode={'multiple'}
                     defaultSelectedKeys={'all'}
                 >
-                    {Object.entries(filters).map(([key, values]) => (
-                        <AccordionItem
-                            key={key}
-                            aria-label={key}
-                            title={key}
-                            classNames={{
-                                title: 'font-semibold',
-                                trigger: 'cursor-pointer'
-                            }}
-                        >
-                            <CheckboxGroup
-                                classNames={{
-                                    base: values.length <= visibleItems ? 'h-auto' : 'max-h-[12.5rem] overflow-y-auto overflow-x-hidden'
-                                }}
-                                value={searchFilters[key] || []}
-                                onValueChange={(values) => handleFilterChange(key, values)}
-                            >
-                                {values.map(item => (
-                                    <Checkbox
-                                        key={item}
-                                        value={item}
+                    {Object.entries(filters).map(([key, values]) => {
+                        const characteristicKey = key as keyof typeof productCharacteristicTranslations
+                        const title = productCharacteristicTranslations[characteristicKey] || key
+
+                            return (
+                                <AccordionItem
+                                    key={key}
+                                    aria-label={key}
+                                    title={title}
+                                    classNames={{
+                                        title: 'font-semibold',
+                                    }}
+                                >
+                                    <CheckboxGroup
+                                        classNames={{
+                                            base: values.length <= visibleItems ? 'h-auto' : 'max-h-[12.5rem] overflow-y-auto overflow-x-hidden'
+                                        }}
+                                        value={searchFilters[key] || []}
+                                        onValueChange={(values) => handleFilterChange(key, values)}
                                     >
-                                        {item}
-                                    </Checkbox>
-                                ))}
-                            </CheckboxGroup>
-                        </AccordionItem>
-                    ))}
+                                        {values.map(item => (
+                                            <Checkbox
+                                                key={item}
+                                                value={item}
+                                            >
+                                                {item}
+                                            </Checkbox>
+                                        ))}
+                                    </CheckboxGroup>
+                                </AccordionItem>
+                            )
+                        }
+                    )}
                 </Accordion>
                 <div className={'sticky bg-white rounded-b-xl bottom-0 p-2'}>
                     <Button

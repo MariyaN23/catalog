@@ -1,4 +1,3 @@
-'use client'
 import {SortSelect} from "@/components/catalog/SortSelect";
 import {ProductsSearch} from "@/components/catalog/ProductsSearch";
 import {Filters} from "@/components/catalog/Filters";

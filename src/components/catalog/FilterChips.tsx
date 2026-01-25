@@ -1,3 +1,4 @@
+"use client"
 import {useProducts} from "@/hooks/useProducts";
 import {Chip} from "@heroui/chip";
 
@@ -41,5 +42,5 @@ export const FilterChips = () => {
                 ))
             ))}
         </div>
-    );
+    )
 }

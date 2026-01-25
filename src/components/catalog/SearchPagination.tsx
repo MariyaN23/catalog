@@ -1,3 +1,4 @@
+"use client"
 import {Pagination} from "@heroui/react";
 import {useProducts} from "@/hooks/useProducts";
 
@@ -12,13 +13,15 @@ export const SearchPagination = () => {
         onPageChange(page)
     }
 
-    return (
-        <div className={'flex justify-center py-8'}>
-            <Pagination
-                page={currentPage}
-                total={totalPages}
-                onChange={handleSearchChange}
-            />
-        </div>
-    );
+    if (totalPages > 0) {
+        return (
+            <div className={'flex justify-center py-8'}>
+                <Pagination
+                    page={currentPage}
+                    total={totalPages}
+                    onChange={handleSearchChange}
+                />
+            </div>
+        )
+    }
 }

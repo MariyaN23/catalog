@@ -1,6 +1,6 @@
 import { ProductCharacteristics } from "@/lib/types/ProductCharacteristics";
 
-export const mapProductCharacteristicsToNames: Record<keyof ProductCharacteristics, string> = {
+export const productCharacteristicTranslations: Record<keyof ProductCharacteristics, string> = {
     country: 'Страна',
     brand: 'Бренд',
     dossage: 'Дозировка',
